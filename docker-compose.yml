@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: excelidraw-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: excelidraw
+    ports:
+      - "5439:5432"
+    volumes:
+      - excelidraw-db-data:/var/lib/postgresql/data
+
+volumes:
+  excelidraw-db-data:
