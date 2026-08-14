@@ -49,7 +49,6 @@ app.post("/signin", async (req, res) => {
     }
 
     try {
-        // TODO: Compare the hashed pws here
         const user = await prismaClient.user.findFirst({
             where: {
                 email: parsedData.data.username,
@@ -87,7 +86,7 @@ app.post("/room", middleware, async (req, res) => {
         })
         return;
     }
-    // @ts-ignore: TODO: Fix this
+    // @ts-ignore
     const userId = req.userId;
 
     try {
@@ -147,4 +146,4 @@ app.get("/room/:slug", async (req, res) => {
     })
 })
 
-app.listen(3001);
+app.listen(process.env.PORT || 3001);

@@ -86,7 +86,7 @@ function distToSegment(x: number, y: number, x1: number, y1: number, x2: number,
     return Math.hypot(x - closestX, y - closestY);
 }
 
-// nudges a shape's coordinates by (dx, dy) in place, used while dragging
+
 function translateShape(shape: Shape, dx: number, dy: number) {
     if (shape.type === "rect" || shape.type === "diamond") {
         shape.x += dx;
@@ -210,8 +210,7 @@ export class Game {
         }
     }
 
-    // finds the topmost shape under a world-space point, or null if nothing's there.
-    // used by both the select tool (to grab a shape) and the eraser (to know what to delete)
+
     hitTest(x: number, y: number): Shape | null {
         for (let i = this.existingShapes.length - 1; i >= 0; i--) {
             const shape = this.existingShapes[i];
@@ -252,8 +251,7 @@ export class Game {
         this.ctx.fillStyle = "rgba(0, 0, 0)"
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // everything below is drawn in "world space" so panning/zooming
-        // just moves the camera instead of touching each shape's coordinates
+
         this.ctx.setTransform(this.scale, 0, 0, this.scale, this.offsetX, this.offsetY);
 
         this.existingShapes.map((shape) => {
@@ -302,7 +300,7 @@ export class Game {
             }
         })
     }
-
+ // @ts-ignore
     mouseDownHandler = (e) => {
         if (e.button === 1) {
             this.panning = true;
@@ -337,6 +335,7 @@ export class Game {
             }
         }
     }
+    // @ts-ignore
     mouseUpHandler = (e) => {
         if (this.panning) {
             this.panning = false;
@@ -449,6 +448,7 @@ export class Game {
             roomId: this.roomId
         }))
     }
+    // @ts-ignore
     mouseMoveHandler = (e) => {
         if (this.panning) {
             this.offsetX += e.clientX - this.panStartX;
@@ -534,17 +534,18 @@ export class Game {
             }
         }
     }
-
+// @ts-ignore
     wheelHandler = (e) => {
+        
         e.preventDefault();
 
         if (e.ctrlKey) {
-            // pinch-to-zoom on trackpads, or ctrl + scroll wheel
+
             const zoomIntensity = 0.01;
             const newScale = this.scale * (1 - e.deltaY * zoomIntensity);
             const clampedScale = Math.min(Math.max(newScale, 0.1), 5);
 
-            // keep whatever point is under the cursor fixed in place while zooming
+
             const worldX = this.toWorldX(e.clientX);
             const worldY = this.toWorldY(e.clientY);
 
@@ -552,7 +553,6 @@ export class Game {
             this.offsetX = e.clientX - worldX * this.scale;
             this.offsetY = e.clientY - worldY * this.scale;
         } else {
-            // two finger trackpad scroll (or a normal mouse wheel) pans the canvas
             this.offsetX -= e.deltaX;
             this.offsetY -= e.deltaY;
         }

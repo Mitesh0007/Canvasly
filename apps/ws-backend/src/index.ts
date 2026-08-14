@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { JWT_SECRET } from '@repo/backend-common/config';
 import { prismaClient } from "@repo/db/client";
 
-const wss = new WebSocketServer({ port: 8080 });
+const wss = new WebSocketServer({ port: Number(process.env.PORT) || 8080 });
 
 interface User {
   ws: WebSocket,
@@ -57,7 +57,7 @@ wss.on('connection', function connection(ws, request) {
     if (typeof data !== "string") {
       parsedData = JSON.parse(data.toString());
     } else {
-      parsedData = JSON.parse(data); // {type: "join-room", roomId: 1}
+      parsedData = JSON.parse(data);
     }
 
     if (parsedData.type === "join_room") {
@@ -116,9 +116,7 @@ wss.on('connection', function connection(ws, request) {
       })
     }
 
-    // moving/erasing a single shape only broadcasts live to whoever's currently
-    // in the room - it doesn't touch the chat log, so a page refresh will still
-    // show shapes in their original added position
+
     if (parsedData.type === "update" || parsedData.type === "delete") {
       const roomId = parsedData.roomId;
 
