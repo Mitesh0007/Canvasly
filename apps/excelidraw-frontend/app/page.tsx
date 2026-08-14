@@ -59,7 +59,7 @@ function App() {
                 <h3 className="text-xl font-semibold">Multiplayer Editing</h3>
               </div>
               <p className="mt-4 text-muted-foreground">
-                Multiple users can edit the same canvas simultaneously. See who's drawing what in real-time.
+                Multiple users can edit the same canvas simultaneously. See who&apos;s drawing what in real-time.
               </p>
             </Card>
 
